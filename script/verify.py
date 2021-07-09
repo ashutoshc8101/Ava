@@ -8,15 +8,15 @@ import asyncio
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
-from pymongo import MongoClient
+# from pymongo import MongoClient
 
 from oauth.google_auth_service import GoogleAuthService, UserNotVerifiedException
 
 from .log import log_emit
 
 uri = os.getenv('MONGODB')
-mongodb = MongoClient(uri)
-db = mongodb[os.getenv("DOCUMENT")]
+# mongodb = MongoClient(uri)
+# db = mongodb[os.getenv("DOCUMENT")]
 
 server = int(os.getenv("SERVER"))
 LOG_CHANNEL = int(os.getenv("LOG_CHANNEL"))
@@ -70,11 +70,11 @@ class Verify(commands.Cog):
         if(name == "" or entry_number ==""):
             help_msg = 'Please use .verify command in correct format.\nFor eg.\n.verify "Abhishek Chaudhary" 2018ucs0087'
             return await ctx.send(f'{help_msg}')
-        user_ex = db.member.find_one({'entry' : entry_number}, {'discordid':1})
+        # user_ex = db.member.find_one({'entry' : entry_number}, {'discordid':1})
         print(name, entry_number)
-        if(user_ex is not None):
-            if(ctx.author.id != int(user_ex['discordid'])):
-                return await ctx.send("One discord Id already registered")
+        # if(user_ex is not None):
+        #     if(ctx.author.id != int(user_ex['discordid'])):
+        #         return await ctx.send("One discord Id already registered")
         await logs.print(f'{ctx.author.mention} tried to join having entry number {entry_number}')
         #return await ctx.send(f'We`ve stopped entries temporarily, Contact Core team')
         timeout = 3
@@ -101,7 +101,7 @@ class Verify(commands.Cog):
                 }
             }
             key_dat = {'discordid' : str(ctx.author.id)}
-            exist = db.member.update(key_dat, user, upsert=True)
+            # exist = db.member.update(key_dat, user, upsert=True)
             await member.add_roles(role)
             await self.give_roles(member, entry_number)
             await ctx.send(f"verified {ctx.author}")
@@ -116,7 +116,7 @@ class Verify(commands.Cog):
     async def update_roles(self, ctx):
         _role = discord.utils.get(guild.roles, name="Verified")
         all_members = _role.members
-        all_users = db.member.find({}, {"entry" : 1, "discordid" : 1})
+        # all_users = db.member.find({}, {"entry" : 1, "discordid" : 1})
         user_dic = {}
         for user in all_users:
             user_dic[user['discordid']] = user['entry']
