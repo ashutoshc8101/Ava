@@ -40,7 +40,7 @@ bot = commands.Bot(
         command_prefix='.',
         description='Coding Club IIT Jammu Discord BOT',
         case_insensitive=True ,
-        intents = intents  
+        intents = intents
     )
 
 bot.load_extension('script.verify')
@@ -61,7 +61,7 @@ async def on_ready():
     await logs.print(f'{bot.user.mention} has connected to Discord!')
     print("connected")
 
-        
+
 @bot.event
 async def on_member_join(member):
     await member.create_dm()
@@ -85,31 +85,31 @@ async def leave(ctx):
 async def id(ctx):
     await ctx.send(f"{ctx.author.id}")
 
-@bot.event
-async def on_raw_reaction_add(payload):
-    Rating_cog = bot.get_cog("Ratings")
-    await Rating_cog.increaseXP(payload.user_id, 1, False)
-    if(payload.message_id == DEPARTMENT_MESSAGE):
-        emoji = payload.emoji.name
-        member = payload.member
-        for i in DEPARTMENTS:
-            if(i[0] == emoji):
-                role = discord.utils.get(guild.roles, name=i[1])
-                if(role in member.roles):
-                    return print(f"{payload.member} already assigned {role}")
-                await member.add_roles(role)
-                return await logs.print(f"added {payload.member.mention} to {role}")
-        print("other emoji")
-    elif(payload.message_id == EMAIL_MESSAGE):
-        emoji = payload.emoji.name
-        member = payload.member
-        correct = '✅'
-        if(emoji == correct):
-            role = discord.utils.get(guild.roles, name= "Receive Emails")
-            if(role in member.roles):
-                return print(f"{payload.member} already subscribed to Emails")
-            await member.add_roles(role)
-            return await logs.print(f"added {payload.member.mention} to {role}")
+# @bot.event
+# async def on_raw_reaction_add(payload):
+#     Rating_cog = bot.get_cog("Ratings")
+#     await Rating_cog.increaseXP(payload.user_id, 1, False)
+#     if(payload.message_id == DEPARTMENT_MESSAGE):
+#         emoji = payload.emoji.name
+#         member = payload.member
+#         for i in DEPARTMENTS:
+#             if(i[0] == emoji):
+#                 role = discord.utils.get(guild.roles, name=i[1])
+#                 if(role in member.roles):
+#                     return print(f"{payload.member} already assigned {role}")
+#                 await member.add_roles(role)
+#                 return await logs.print(f"added {payload.member.mention} to {role}")
+#         print("other emoji")
+#     elif(payload.message_id == EMAIL_MESSAGE):
+#         emoji = payload.emoji.name
+#         member = payload.member
+#         correct = '✅'
+#         if(emoji == correct):
+#             role = discord.utils.get(guild.roles, name= "Receive Emails")
+#             if(role in member.roles):
+#                 return print(f"{payload.member} already subscribed to Emails")
+#             await member.add_roles(role)
+#             return await logs.print(f"added {payload.member.mention} to {role}")
 
 @bot.event
 async def on_raw_reaction_remove(payload):
@@ -139,8 +139,8 @@ async def on_raw_reaction_remove(payload):
                 return await logs.print(f"{member.mention} removed from {role}")
             return print(f"{payload.member} already unsubscribed to Emails")
         return print("other emoji")
-            
-            
+
+
 
 @bot.event
 async def on_message(message):
@@ -148,7 +148,7 @@ async def on_message(message):
         return
     if isinstance(message.channel, discord.channel.TextChannel):    #ONLY GUILD messages
         if("@here" in message.content):
-            core_role = discord.utils.get(guild.roles, name="Core Team") 
+            core_role = discord.utils.get(guild.roles, name="Core Team")
             if(core_role in message.author.roles):
                 await notify.send(message)
         #increase XP
