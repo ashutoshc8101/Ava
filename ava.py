@@ -56,7 +56,7 @@ async def on_ready():
     notify = sendemails(bot, DEBUG)
     guild = bot.get_guild(int(server))
     role = discord.utils.get(guild.roles, name = 'Verified')
-    await dep_channel.set_permissions(role, read_messages=True )
+    # await dep_channel.set_permissions(role, read_messages=True )
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=".help 💗"))
     await logs.print(f'{bot.user.mention} has connected to Discord!')
     print("connected")
@@ -75,7 +75,7 @@ async def leave(ctx):
     if(ctx.message.author.id != AUTHOR):
         return
     role = discord.utils.get(guild.roles, name = 'Verified')
-    await dep_channel.set_permissions(role, read_messages=False )
+    # await dep_channel.set_permissions(role, read_messages=False )
     await ctx.send('Leaving server. BYE!')
     await logs.print(f'{bot.user.mention} leaving Server! command from {ctx.author}.')
     await bot.close()
