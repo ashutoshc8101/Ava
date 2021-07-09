@@ -150,16 +150,7 @@ class Verify(commands.Cog):
         await logs.print(f'{ctx.author.mention} started Verification')
 
         try:
-            authorization_code = (await self.bot.wait_for(
-                'message', check=lambda message: message.author == ctx.author,
-                timeout = 180)).content
-        except asyncio.TimeoutError:
-            await ctx.send(f"{ctx.author} Verification Time Out")
-            return await logs.print(f'{ctx.author.mention} verification Timeout')
-
-        try:
-            user_email = google_auth_service.validate_and_get_user_email(
-                authorization_code)
+            user_email = google_auth_service.validate_and_get_user_email(auth_url)
         except UserNotVerifiedException as e:
             await logs.print(ctx.author, e.message)
         except Exception as err:
